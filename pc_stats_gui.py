@@ -19,6 +19,12 @@ root.title("Test Dashboard")
 #root.iconbitmap()
 root.geometry('500x500')
 
-Label(board)
+board_label = ttb.Label(root, text=board, font= ("Ariel", 14))
+board_label.pack()
 
+cpu_label = ttb.Label(root, text=cpu, font= ("Ariel", 14))
+cpu_label.pack()
+
+num_disks_label = ttb.Label(root, text=f"Number of storage devices: " + str(available_disks), font= ("Ariel", 14))
+num_disks_label.pack()
 root.mainloop()
