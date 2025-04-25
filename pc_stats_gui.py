@@ -29,7 +29,7 @@ class Dashboard(ttb.Frame):
         super().__init__(main, padding=(20,20))
         self.place(relheight=1, relwidth=1)
         self.columnconfigure((0,1,2,3,4), weight=1)
-        self.rowconfigure((0,1,2), weight=2)
+        self.rowconfigure((0,1,2,3), weight=2)
         #self.pack(fill=BOTH, expand=YES)
         self.board = platform.node()
         self.cpu = cpuinfo.get_cpu_info()['brand_raw']
@@ -41,14 +41,14 @@ class Dashboard(ttb.Frame):
         self.cpu_usage = psutil.cpu_percent()
         self.ram_usage = psutil.virtual_memory().percent
 
-        self.create_label(self.board, col_num=1, row_num=0)
+        self.create_label(self.board, col_num=0, row_num=0)
         self.create_label(self.cpu, col_num=1, row_num=0)
-        self.create_label(self.total_ram, col_num=2, row_num=0)
-        self.create_label(f'{len(self.available_disks)} available disks', col_num=3, row_num=0)
-        self.create_label(self.proc_speed, col_num=0, row_num=0)
+        self.create_label(f'Available RAM: {self.total_ram} GB', col_num=1, row_num=2)
+        self.create_label(f'{len(self.available_disks)} available disks', col_num=1, row_num=1)
+        #self.create_label(self.proc_speed, col_num=0, row_num=0)
 
-        self.cpu_meter = self.create_meter("CPU Usage", self.cpu_usage, col_num=1, row_num=1)
-        self.ram_meter = self.create_meter("RAM Usage", self.ram_usage, col_num=2, row_num=1)
+        self.cpu_meter = self.create_meter("CPU Usage", self.cpu_usage, col_num=1, row_num=3)
+        self.ram_meter = self.create_meter("RAM Usage", self.ram_usage, col_num=2, row_num=3)
 
         self.update()
 
@@ -57,7 +57,7 @@ class Dashboard(ttb.Frame):
         lab.grid(column=col_num, row=row_num)
 
     def create_meter(self, label, variable, col_num, row_num):
-        meter = ttb.Meter(self, metersize=150, padding = 10, amounttotal=100, metertype="semi", interactive=False, subtext=label, textright="%")
+        meter = ttb.Meter(self, metersize=150, padding = 10, amounttotal=100, metertype="semi", interactive=False, subtext=label, textright="%", bootstyle = 'success')
         meter.grid(column=col_num,row=row_num)
         meter.configure(amountused=variable)
         return meter
